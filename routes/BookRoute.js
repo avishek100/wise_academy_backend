@@ -18,6 +18,6 @@ router.get("/", findAll);
 router.post("/", upload.single('file'), save);
 router.get("/:id", findById)
 router.delete("/:id", deleteById)
-router.put("/:id", update)
+router.put("/:id",upload.single('file'), update);
 
 module.exports = router;

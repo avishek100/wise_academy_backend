@@ -41,12 +41,33 @@ const deleteById = async (req, res) => {
 }
 const update = async (req, res) => {
     try {
-        const grounds = await Ground.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(201).json(grounds)
+        const { name, description } = req.body;
+
+        // Find the ground by ID
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(404).json({ message: "Ground not found" });
+        }
+
+        // Update fields
+        book.name = name || book.name;
+        book.description = description || book.description;
+
+        // Check if a new image file is uploaded
+        if (req.file) {
+            book.image = req.file.originalname;
+        }
+
+        // Save the updated document
+        await book.save();
+
+        res.status(201).json(book);
     } catch (e) {
-        res.json(e)
+        res.status(500).json({ error: e.message });
     }
-}
+};
+
+
 module.exports = {
     findAll,
     save,
