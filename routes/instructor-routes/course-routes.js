@@ -1,9 +1,9 @@
 const express = require("express");
 const {
-    addNewCourse,
-    getAllCourses,
-    getCourseDetailsByID,
-    updateCourseByID,
+  addNewCourse,
+  getAllCourses,
+  getCourseDetailsByID,
+  updateCourseByID,
 } = require("../../controllers/instructor-controller/course-controller");
 const router = express.Router();
 

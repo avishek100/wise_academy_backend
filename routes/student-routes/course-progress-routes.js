@@ -1,8 +1,8 @@
 const express = require("express");
 const {
-    getCurrentCourseProgress,
-    markCurrentLectureAsViewed,
-    resetCurrentCourseProgress,
+  getCurrentCourseProgress,
+  markCurrentLectureAsViewed,
+  resetCurrentCourseProgress,
 } = require("../../controllers/student-controller/course-progress-controller");
 
 const router = express.Router();

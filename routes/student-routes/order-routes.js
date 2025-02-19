@@ -1,7 +1,7 @@
 const express = require("express");
 const {
-    createOrder,
-    capturePaymentAndFinalizeOrder,
+  createOrder,
+  capturePaymentAndFinalizeOrder,
 } = require("../../controllers/student-controller/order-controller");
 
 const router = express.Router();
