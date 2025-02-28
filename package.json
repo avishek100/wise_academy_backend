@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "server.js",
     "dev": "nodemon server.js"
   },
@@ -12,7 +11,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@playwright/test": "^1.50.1",
+    "@types/node": "^22.13.5",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.6",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

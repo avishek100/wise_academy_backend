@@ -48,6 +48,7 @@ const getAllStudentViewCourses = async (req, res) => {
     }
 
     const coursesList = await Course.find(filters).sort(sortParam);
+    console.log(coursesList)
 
     res.status(200).json({
       success: true,
@@ -66,6 +67,7 @@ const getStudentViewCourseDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const courseDetails = await Course.findById(id);
+    console.log("full details for course:", courseDetails)
 
     if (!courseDetails) {
       return res.status(404).json({
@@ -88,45 +90,36 @@ const getStudentViewCourseDetails = async (req, res) => {
   }
 };
 
+
 const checkCoursePurchaseInfo = async (req, res) => {
   try {
-    const courseId = req.params.courseId; // Get courseId from route params
-    const studentId = req.params.studentId; // Get studentId from route params
+    const { id, studentId } = req.params;
+    const studentCourses = await StudentCourses.findOne({
+      userId: studentId,
+    });
 
-    // Fetch the course by its ID
-    const course = await Course.findById(courseId);
+    console.log('student course:', studentCourses);
 
-    // If no course is found, return a 404 error
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
+    if (!studentCourses) {
+      return res.status(200).json({
+        success: true,
+        data: false,
+      });
     }
 
-    // Now check if the 'courses' property exists in the fetched course
-    if (!course.courses) {
-      return res.status(500).json({ message: "Courses data missing in course object" });
-    }
+    const ifStudentAlreadyBoughtCurrentCourse =
+      studentCourses.courses.some((item) => item.courseId === id);
 
-    // Fetch student information (if needed)
-    const student = await Student.findById(studentId);
-
-    // If no student is found, return a 404 error
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
-    }
-
-    // Proceed with your existing logic to check if the student has purchased the course
-    const purchased = course.courses.some(courseItem => courseItem._id.toString() === studentId);
-
-    // Return response based on whether the student has purchased the course or not
-    if (purchased) {
-      return res.status(200).json({ message: "Course purchased" });
-    } else {
-      return res.status(200).json({ message: "Course not purchased" });
-    }
-
-  } catch (error) {
-    console.error("Error in checkCoursePurchaseInfo:", error);
-    return res.status(500).json({ message: "Server error" });
+    res.status(200).json({
+      success: true,
+      data: ifStudentAlreadyBoughtCurrentCourse,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occurred!",
+    });
   }
 };
 
