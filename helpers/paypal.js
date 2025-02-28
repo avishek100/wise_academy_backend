@@ -7,4 +7,3 @@ paypal.configure({
 });
 
 module.exports = paypal;
-// 
